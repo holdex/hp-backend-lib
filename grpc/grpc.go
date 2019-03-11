@@ -3,7 +3,7 @@ package libgrpc
 import (
 	"context"
 
-	"hp-backend-lib/log"
+	"bitbucket.org/holdex/hp-backend-lib/log"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"google.golang.org/grpc"

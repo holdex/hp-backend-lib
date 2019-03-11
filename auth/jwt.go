@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"hp-backend-lib/ctx"
-	"hp-backend-lib/strings"
+	"bitbucket.org/holdex/hp-backend-lib/ctx"
+	"bitbucket.org/holdex/hp-backend-lib/strings"
 
 	"github.com/coreos/go-oidc"
 	"github.com/grpc-ecosystem/go-grpc-middleware/auth"

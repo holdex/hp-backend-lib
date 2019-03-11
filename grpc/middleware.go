@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"time"
 
-	"hp-backend-lib/ctx"
-	"hp-backend-lib/log"
-	"hp-backend-lib/strings"
+	"bitbucket.org/holdex/hp-backend-lib/ctx"
+	"bitbucket.org/holdex/hp-backend-lib/log"
+	"bitbucket.org/holdex/hp-backend-lib/strings"
 
 	"bitbucket.org/holdex/go-proto-validators"
 	"github.com/coreos/go-oidc"

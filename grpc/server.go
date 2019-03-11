@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"hp-backend-lib/log"
+	"bitbucket.org/holdex/hp-backend-lib/log"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"

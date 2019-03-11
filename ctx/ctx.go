@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"hp-backend-lib/strings"
+	"bitbucket.org/holdex/hp-backend-lib/strings"
 
 	"github.com/satori/go.uuid"
 	"google.golang.org/grpc/metadata"

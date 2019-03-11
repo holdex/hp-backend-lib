@@ -1,4 +1,4 @@
-module hp-backend-lib
+module bitbucket.org/holdex/hp-backend-lib
 
 require (
 	bitbucket.org/holdex/go-proto-validators v0.0.0-20190116072441-bb29ebc150f8

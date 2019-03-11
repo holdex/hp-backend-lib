@@ -3,7 +3,7 @@ package libpq
 import (
 	"database/sql"
 
-	"hp-backend-lib/log"
+	"bitbucket.org/holdex/hp-backend-lib/log"
 )
 
 func Open(dataSourceName string) *sql.DB {
