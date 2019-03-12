@@ -100,7 +100,7 @@ func IsFileType(file multipart.File, t string) (bool, error) {
 	return false, nil
 }
 
-func IsMimeType(file multipart.File, m string) (bool, error) {
+func IsMimeType(file multipart.File, types ...string) (bool, error) {
 	// Create a buffer to store the header of the file in
 	fileHeader := make([]byte, 512)
 
@@ -114,7 +114,17 @@ func IsMimeType(file multipart.File, m string) (bool, error) {
 		return false, err
 	}
 
-	return http.DetectContentType(fileHeader) == m, nil
+	mimeType := http.DetectContentType(fileHeader)
+	if mimeType != "" {
+		for _, val := range types {
+			if mimeType == val {
+				return true, nil
+
+			}
+		}
+	}
+
+	return false, ErrFileTypeNotAllowed
 }
 
 func DecodeImage(file io.Reader, minWidth, minHeight int, formats ...string) (originalImage image.Image, ext string, err error) {
@@ -131,33 +141,6 @@ func DecodeImage(file io.Reader, minWidth, minHeight int, formats ...string) (or
 		return
 	} else if originalImage.Bounds().Max.Y < minHeight {
 		err = ErrHeightTooSmall
-		return
-	}
-
-	for _, val := range formats {
-		if ext == val {
-			return
-		}
-	}
-
-	err = ErrFileTypeNotAllowed
-	return
-}
-
-func DecodeExactImage(file io.Reader, width, height int, formats ...string) (originalImage image.Image, ext string, err error) {
-	originalImage, ext, err = image.Decode(file)
-	if err != nil {
-		return
-	}
-
-	if originalImage == nil {
-		err = ErrFileIsEmpty
-		return
-	} else if originalImage.Bounds().Max.X != width {
-		err = ErrWidthNotMatch
-		return
-	} else if originalImage.Bounds().Max.Y != height {
-		err = ErrHeightNotMatch
 		return
 	}
 
