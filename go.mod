@@ -5,6 +5,7 @@ require (
 	github.com/coreos/go-oidc v2.0.0+incompatible
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gogo/protobuf v1.2.1
+	github.com/golang/protobuf v1.2.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/pquerna/cachecontrol v0.0.0-20180517163645-1555304b9b35 // indirect
