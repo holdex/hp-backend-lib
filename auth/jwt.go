@@ -2,6 +2,7 @@ package libauth
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"bitbucket.org/holdex/hp-backend-lib/ctx"
@@ -18,7 +19,7 @@ type JWTValidator func(ctx context.Context) (context.Context, error)
 
 func MakeJWTValidator(jwkSet oidc.KeySet, issuer string, audiences ...string) JWTValidator {
 	return func(ctx context.Context) (context.Context, error) {
-		token, err := grpc_auth.AuthFromMD(ctx, "bearer")
+		token, err := extractAuth(ctx, "bearer")
 		if err != nil {
 			return ctx, err
 		}
@@ -44,6 +45,22 @@ func MakeJWTValidator(jwkSet oidc.KeySet, issuer string, audiences ...string) JW
 
 		return libctx.WithAuthSubject(ctx, claims.Subject), nil
 	}
+}
+
+func extractAuth(ctx context.Context, expectedScheme string) (string, error) {
+	val := libctx.GetVal(ctx, "authorization")
+	if val == "" {
+		return "", status.Error(codes.Unauthenticated, "Request unauthenticated with "+expectedScheme)
+
+	}
+	splits := strings.SplitN(val, " ", 2)
+	if len(splits) < 2 {
+		return "", status.Error(codes.Unauthenticated, "Bad authorization string")
+	}
+	if strings.ToLower(splits[0]) != strings.ToLower(expectedScheme) {
+		return "", status.Error(codes.Unauthenticated, "Request unauthenticated with "+expectedScheme)
+	}
+	return splits[1], nil
 }
 
 type AdminValidator func(context.Context) error
