@@ -7,6 +7,7 @@ import (
 
 	"bitbucket.org/holdex/hp-backend-lib/ctx"
 	"bitbucket.org/holdex/hp-backend-lib/strings"
+
 	"github.com/coreos/go-oidc"
 	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc/codes"
