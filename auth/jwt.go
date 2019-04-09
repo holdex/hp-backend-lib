@@ -8,6 +8,7 @@ import (
 	"bitbucket.org/holdex/hp-backend-lib/ctx"
 	"bitbucket.org/holdex/hp-backend-lib/strings"
 
+	"github.com/coreos/go-oidc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gopkg.in/square/go-jose.v2/json"
