@@ -8,8 +8,6 @@ import (
 	"bitbucket.org/holdex/hp-backend-lib/ctx"
 	"bitbucket.org/holdex/hp-backend-lib/strings"
 
-	"github.com/coreos/go-oidc"
-	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gopkg.in/square/go-jose.v2/json"
@@ -68,7 +66,7 @@ type AdminValidator func(context.Context) error
 
 func MakeAdminValidator(adminKey string) AdminValidator {
 	return func(ctx context.Context) error {
-		token, err := grpc_auth.AuthFromMD(ctx, "bearer")
+		token, err := extractAuth(ctx, "bearer")
 		if err != nil {
 			return err
 		}
