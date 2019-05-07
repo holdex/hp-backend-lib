@@ -34,6 +34,7 @@ func MakeLoggingUnaryServerInterceptor() grpc.UnaryServerInterceptor {
 				codes.AlreadyExists,
 				codes.FailedPrecondition,
 				codes.NotFound,
+				codes.Canceled,
 				codes.InvalidArgument,
 				codes.PermissionDenied,
 				codes.Unauthenticated:
