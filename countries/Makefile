@@ -1,7 +1,10 @@
 .PHONY: install all
 
 all:
-	protoc --go_out=$(GOPATH)/src --gogqlenum_out=$(GOPATH)/src ./*.proto
+	protoc --proto_path=${GOPATH}/src/ --proto_path=. \
+            --go_out=. \
+            --gogqlenum_out=. \
+            ./*.proto
 
 install:
 	go get -u github.com/golang/protobuf/protoc-gen-go
