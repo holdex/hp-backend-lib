@@ -22,6 +22,7 @@ func WithMetadata(h http.Handler) http.HandlerFunc {
 		ctx = WithAuthorization(ctx, r.Header.Get("Authorization"))
 		ctx = WithRequestID(ctx, xReqID)
 		ctx = WithRemoteAddr(ctx, r.Header.Get("X-Real-IP"))
+		ctx = WithAuthV2(ctx, r.Header.Get("AUTHV2"))
 		ctx = WithUserAgent(ctx, r.UserAgent())
 		h.ServeHTTP(w, r.WithContext(ctx))
 	}
@@ -49,6 +50,14 @@ func WithAuthSubject(ctx context.Context, sub string) context.Context {
 
 func WithAuthorization(ctx context.Context, authorization string) context.Context {
 	return setVal(ctx, "authorization", authorization)
+}
+
+func IsAuthV2(ctx context.Context) bool {
+	return GetVal(ctx, "AUTHV2") == "TRUE"
+}
+
+func WithAuthV2(ctx context.Context, value string) context.Context {
+	return setVal(ctx, "AUTHV2", value)
 }
 
 func setVal(ctx context.Context, key, val string) context.Context {
