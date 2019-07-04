@@ -53,11 +53,11 @@ func WithAuthorization(ctx context.Context, authorization string) context.Contex
 }
 
 func IsAuthV2(ctx context.Context) bool {
-	return GetVal(ctx, "AUTHV2") == "TRUE"
+	return GetVal(ctx, "authv2") == "TRUE"
 }
 
 func WithAuthV2(ctx context.Context, value string) context.Context {
-	return setVal(ctx, "AUTHV2", value)
+	return setVal(ctx, "authv2", value)
 }
 
 func setVal(ctx context.Context, key, val string) context.Context {
