@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"bitbucket.org/holdex/hp-backend-lib/err"
+	"github.com/holdex/hp-backend-lib/err"
 )
 
 const (

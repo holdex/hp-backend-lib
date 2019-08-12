@@ -11,9 +11,9 @@ import (
 	"github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 
-	"bitbucket.org/holdex/hp-backend-lib/eventstore"
-	"bitbucket.org/holdex/hp-backend-lib/eventstore/pg"
-	"bitbucket.org/holdex/hp-backend-lib/log"
+	"github.com/holdex/hp-backend-lib/eventstore"
+	"github.com/holdex/hp-backend-lib/eventstore/pg"
+	"github.com/holdex/hp-backend-lib/log"
 )
 
 var (

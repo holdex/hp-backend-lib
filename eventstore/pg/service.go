@@ -8,10 +8,10 @@ import (
 
 	"github.com/lib/pq"
 
-	"bitbucket.org/holdex/hp-backend-lib/eventstore"
-	"bitbucket.org/holdex/hp-backend-lib/eventstore/pg/pubsub"
-	"bitbucket.org/holdex/hp-backend-lib/eventstore/switcher"
-	"bitbucket.org/holdex/hp-backend-lib/log"
+	"github.com/holdex/hp-backend-lib/eventstore"
+	"github.com/holdex/hp-backend-lib/eventstore/pg/pubsub"
+	"github.com/holdex/hp-backend-lib/eventstore/switcher"
+	"github.com/holdex/hp-backend-lib/log"
 )
 
 func NewService(db *sql.DB) libeventstore.Service {

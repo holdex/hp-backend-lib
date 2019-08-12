@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"bitbucket.org/holdex/hp-backend-lib/ctx"
-	"bitbucket.org/holdex/hp-backend-lib/err"
-	"bitbucket.org/holdex/hp-backend-lib/strings"
+	"github.com/holdex/hp-backend-lib/ctx"
+	"github.com/holdex/hp-backend-lib/err"
+	"github.com/holdex/hp-backend-lib/strings"
 
 	"github.com/coreos/go-oidc"
 	"gopkg.in/square/go-jose.v2/json"

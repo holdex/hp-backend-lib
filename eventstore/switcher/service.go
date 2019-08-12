@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"bitbucket.org/holdex/hp-backend-lib/eventstore"
-	"bitbucket.org/holdex/hp-backend-lib/log"
+	"github.com/holdex/hp-backend-lib/eventstore"
+	"github.com/holdex/hp-backend-lib/log"
 )
 
 var ErrDataSourceNotAvailable = errors.New("data source not available")

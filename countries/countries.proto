@@ -1,7 +1,7 @@
 syntax = "proto3";
 package countries;
 
-option go_package="bitbucket.org/holdex/hp-backend-lib/countries;countries";
+option go_package="github.com/holdex/hp-backend-lib/countries;countries";
 
 enum Code {
     NONE = 0;

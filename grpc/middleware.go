@@ -14,11 +14,11 @@ import (
 	"google.golang.org/grpc/status"
 	"gopkg.in/square/go-jose.v2/jwt"
 
-	"bitbucket.org/holdex/hp-backend-lib/ctx"
-	"bitbucket.org/holdex/hp-backend-lib/err"
-	"bitbucket.org/holdex/hp-backend-lib/log"
-	"bitbucket.org/holdex/hp-backend-lib/strings"
-	"bitbucket.org/holdex/hp-backend-lib/validator"
+	"github.com/holdex/hp-backend-lib/ctx"
+	"github.com/holdex/hp-backend-lib/err"
+	"github.com/holdex/hp-backend-lib/log"
+	"github.com/holdex/hp-backend-lib/strings"
+	"github.com/holdex/hp-backend-lib/validator"
 )
 
 func MakeLoggingUnaryServerInterceptor() grpc.UnaryServerInterceptor {
