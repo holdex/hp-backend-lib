@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"bitbucket.org/holdex/hp-backend-lib/ctx"
+	"bitbucket.org/holdex/hp-backend-lib/err"
 	"bitbucket.org/holdex/hp-backend-lib/log"
 	"bitbucket.org/holdex/hp-backend-lib/strings"
 
@@ -143,4 +144,19 @@ func ValidatorUnaryServerInterceptor(ctx context.Context, req interface{}, info 
 	}
 
 	return handler(ctx, req)
+}
+
+func ErrorUnaryServerInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+	resp, err = handler(ctx, req)
+	if err != nil {
+		switch e := err.(type) {
+		case *liberr.InvalidArgument:
+			err = status.Error(codes.InvalidArgument, e.Error())
+		case *liberr.NotAuthorized:
+			err = status.Error(codes.PermissionDenied, e.Error())
+		case *liberr.Unauthenticated:
+			err = status.Error(codes.Unauthenticated, e.Error())
+		}
+	}
+	return resp, err
 }

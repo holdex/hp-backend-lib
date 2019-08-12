@@ -1,6 +1,9 @@
 package liberr
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 func NewNotAuthorized(reason string) *NotAuthorized {
 	return &NotAuthorized{errors.New(reason)}
@@ -14,13 +17,14 @@ func (e *NotAuthorized) Error() string {
 	return e.error.Error()
 }
 
-func NewNotAuthenticated() *NotAuthenticated {
-	return &NotAuthenticated{}
+func NewUnauthenticated(reason string, args ...interface{}) *Unauthenticated {
+	return &Unauthenticated{fmt.Errorf(reason, args...)}
 }
 
-type NotAuthenticated struct {
+type Unauthenticated struct {
+	error
 }
 
-func (e *NotAuthenticated) Error() string {
-	return "not authenticated"
+func (e *Unauthenticated) Error() string {
+	return e.error.Error()
 }

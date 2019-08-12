@@ -70,7 +70,7 @@ func ErrUnknown(w http.ResponseWriter, err error) {
 		Err400(w, errInvalidArgument, e)
 	case *liberr.NotAuthorized:
 		Err401(w, errNotAuthorized, e)
-	case *liberr.NotAuthenticated:
+	case *liberr.Unauthenticated:
 		OkErr(w, errNotAuthenticated, e)
 	default:
 		Err500(w, e)
