@@ -5,11 +5,6 @@ import (
 	"encoding/json"
 	"time"
 
-	"bitbucket.org/holdex/hp-backend-lib/ctx"
-	"bitbucket.org/holdex/hp-backend-lib/err"
-	"bitbucket.org/holdex/hp-backend-lib/log"
-	"bitbucket.org/holdex/hp-backend-lib/strings"
-
 	"bitbucket.org/holdex/go-proto-validators"
 	"github.com/coreos/go-oidc"
 	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
@@ -18,6 +13,12 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gopkg.in/square/go-jose.v2/jwt"
+
+	"bitbucket.org/holdex/hp-backend-lib/ctx"
+	"bitbucket.org/holdex/hp-backend-lib/err"
+	"bitbucket.org/holdex/hp-backend-lib/log"
+	"bitbucket.org/holdex/hp-backend-lib/strings"
+	"bitbucket.org/holdex/hp-backend-lib/validator"
 )
 
 func MakeLoggingUnaryServerInterceptor() grpc.UnaryServerInterceptor {
@@ -150,7 +151,7 @@ func ErrorUnaryServerInterceptor(ctx context.Context, req interface{}, info *grp
 	resp, err = handler(ctx, req)
 	if err != nil {
 		switch e := err.(type) {
-		case *liberr.InvalidArgument:
+		case *liberr.InvalidArgument, libvalidator.V:
 			err = status.Error(codes.InvalidArgument, e.Error())
 		case *liberr.NotAuthorized:
 			err = status.Error(codes.PermissionDenied, e.Error())
