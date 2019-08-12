@@ -63,7 +63,7 @@ func (v V) GT(field string, value, compare float64) V {
 	if value <= compare {
 		return v.Err(field, "is not greater than: %f", compare)
 	}
-	return nil
+	return v
 }
 
 func (v V) LT(field string, value, compare float64) V {
