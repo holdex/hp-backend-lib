@@ -1,6 +1,5 @@
 package liberr
 
-type Error interface {
-	error
+type Code interface {
 	Code() string
 }
