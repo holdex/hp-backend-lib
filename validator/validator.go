@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+
+	"google.golang.org/grpc/codes"
 )
 
 func New(errs ...error) V {
@@ -17,6 +19,10 @@ func New(errs ...error) V {
 }
 
 type V []error
+
+func (v V) Code() string {
+	return codes.InvalidArgument.String()
+}
 
 func (v V) Error() string {
 	if len(v) == 0 {

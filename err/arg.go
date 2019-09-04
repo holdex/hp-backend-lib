@@ -1,6 +1,10 @@
 package liberr
 
-import "errors"
+import (
+	"errors"
+
+	"google.golang.org/grpc/codes"
+)
 
 func NewInvalidArgument(reason string) *InvalidArgument {
 	return &InvalidArgument{errors.New(reason)}
@@ -8,6 +12,10 @@ func NewInvalidArgument(reason string) *InvalidArgument {
 
 type InvalidArgument struct {
 	error
+}
+
+func (e *InvalidArgument) Code() string {
+	return codes.InvalidArgument.String()
 }
 
 func (e *InvalidArgument) Error() string {

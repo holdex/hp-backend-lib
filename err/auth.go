@@ -3,6 +3,8 @@ package liberr
 import (
 	"errors"
 	"fmt"
+
+	"google.golang.org/grpc/codes"
 )
 
 func NewNotAuthorized(reason string) *NotAuthorized {
@@ -11,6 +13,10 @@ func NewNotAuthorized(reason string) *NotAuthorized {
 
 type NotAuthorized struct {
 	error
+}
+
+func (e *NotAuthorized) Code() string {
+	return codes.PermissionDenied.String()
 }
 
 func (e *NotAuthorized) Error() string {
@@ -23,6 +29,10 @@ func NewUnauthenticated(reason string, args ...interface{}) *Unauthenticated {
 
 type Unauthenticated struct {
 	error
+}
+
+func (e *Unauthenticated) Code() string {
+	return codes.Unauthenticated.String()
 }
 
 func (e *Unauthenticated) Error() string {
