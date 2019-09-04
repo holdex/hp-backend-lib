@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"time"
 
-	"bitbucket.org/holdex/go-proto-validators"
 	"github.com/coreos/go-oidc"
 	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	"github.com/holdex/go-proto-validators"
 	"github.com/rollbar/rollbar-go"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

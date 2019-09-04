@@ -2,14 +2,6 @@
 
 
 [[projects]]
-  branch = "master"
-  digest = "1:717d6b8dcf4da680dfd8531e6d31e4da3f971f485e2aaf866bf67358c4a4c157"
-  name = "bitbucket.org/holdex/go-proto-validators"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "bb29ebc150f830451bce9ccedcd080ada158a329"
-
-[[projects]]
   digest = "1:80004fcc5cf64e591486b3e11b406f1e0d17bf85d475d64203c8494f5da4fcd1"
   name = "cloud.google.com/go"
   packages = ["compute/metadata"]
@@ -105,6 +97,14 @@
   pruneopts = "UT"
   revision = "7087cb70de9f7a8bc0a10c375cb0d2280a8edf9c"
   version = "v0.5.1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:717d6b8dcf4da680dfd8531e6d31e4da3f971f485e2aaf866bf67358c4a4c157"
+  name = "github.com/holdex/go-proto-validators"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bb29ebc150f830451bce9ccedcd080ada158a329"
 
 [[projects]]
   digest = "1:bdd53b87de8185da386bae179c84d4848854c6870bacacf6a154fe63e2e750f7"
@@ -373,7 +373,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "bitbucket.org/holdex/go-proto-validators",
     "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres",
     "github.com/coreos/go-oidc",
     "github.com/dgrijalva/jwt-go",
@@ -383,6 +382,7 @@
     "github.com/golang/protobuf/proto",
     "github.com/grpc-ecosystem/go-grpc-middleware",
     "github.com/grpc-ecosystem/go-grpc-middleware/auth",
+    "github.com/holdex/go-proto-validators",
     "github.com/lib/pq",
     "github.com/rollbar/rollbar-go",
     "github.com/satori/go.uuid",

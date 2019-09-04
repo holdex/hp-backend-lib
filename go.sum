@@ -1,5 +1,3 @@
-bitbucket.org/holdex/go-proto-validators v0.0.0-20190116072441-bb29ebc150f8 h1:wPzM4b1HD3rdhzMf72nMESWrh7o5EL3JdcUeap/89Nc=
-bitbucket.org/holdex/go-proto-validators v0.0.0-20190116072441-bb29ebc150f8/go.mod h1:pgfXLS48/nduMEPOKPZeyf9LEYUU+AwZQ0Zd6jKkGhU=
 cloud.google.com/go v0.26.0 h1:e0WKqKTd5BnrG8aKH3J3h+QvEIQtSUcf2n5UZ5ZgLtQ=
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
@@ -23,6 +21,8 @@ github.com/golang/protobuf v1.3.2 h1:6nsPYzhq5kReh6QImI3k5qWzO4PEbvbIW2cwSfR/6xs
 github.com/golang/protobuf v1.3.2/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0 h1:Iju5GlWwrvL6UBg4zJJt3btmonfrMlCDdsejg4CZE7c=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0/go.mod h1:FiyG127CGDf3tlThmgyCl78X/SZQqEOJBCDaAfeWzPs=
+github.com/holdex/go-proto-validators v0.0.0-20190116072441-bb29ebc150f8 h1:lwk6XpIvtd8CvmQibLqac6jVNBfiO/7hcxDiLqwgC5Y=
+github.com/holdex/go-proto-validators v0.0.0-20190116072441-bb29ebc150f8/go.mod h1:quOh3sxkCAbWVYZhWHRWxygmVQQjnSAEaNwVquELksQ=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
