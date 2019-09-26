@@ -65,16 +65,28 @@ func (v V) NotNil(field string, value interface{}) V {
 	return v
 }
 
-func (v V) GT(field string, value, compare float64) V {
-	if value <= compare {
-		return v.Err(field, "is not greater than: %f", compare)
+func (v V) GT(field string, value, compare float64, equal bool) V {
+	if equal {
+		if value <= compare {
+			return v.Err(field, "is not greater or equal than: %f", compare)
+		}
+	} else {
+		if value < compare {
+			return v.Err(field, "is not greater than: %f", compare)
+		}
 	}
 	return v
 }
 
-func (v V) LT(field string, value, compare float64) V {
-	if value >= compare {
-		return v.Err(field, "is not lower than: %f", compare)
+func (v V) LT(field string, value, compare float64, equal bool) V {
+	if equal {
+		if value >= compare {
+			return v.Err(field, "is not lower or equal than: %f", compare)
+		}
+	} else {
+		if value > compare {
+			return v.Err(field, "is not lower than: %f", compare)
+		}
 	}
 	return v
 }
