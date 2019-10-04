@@ -99,12 +99,11 @@
   version = "v0.5.1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:717d6b8dcf4da680dfd8531e6d31e4da3f971f485e2aaf866bf67358c4a4c157"
+  digest = "1:69573966adaa17c45e863f64b952b0bf91b5ba829eeaca129c7a83201100bb65"
   name = "github.com/holdex/go-proto-validators"
   packages = ["."]
   pruneopts = "UT"
-  revision = "bb29ebc150f830451bce9ccedcd080ada158a329"
+  revision = "c9c5f3e04ca0892f956c9bd33eb5ce146d99c71f"
 
 [[projects]]
   digest = "1:bdd53b87de8185da386bae179c84d4848854c6870bacacf6a154fe63e2e750f7"

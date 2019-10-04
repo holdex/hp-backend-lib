@@ -26,7 +26,7 @@
 
 
 [[constraint]]
-  branch = "master"
+  revision = "c9c5f3e04ca0892f956c9bd33eb5ce146d99c71f"
   name = "github.com/holdex/go-proto-validators"
 
 [[constraint]]
