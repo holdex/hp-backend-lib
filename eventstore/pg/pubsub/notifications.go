@@ -26,14 +26,7 @@ type Notification struct {
 func (p *notifications) Publish(n Notification) {
 	p.RLock()
 	for ch := range p.subscribers {
-		for {
-			select {
-			case ch <- n:
-			case <-ch:
-				continue
-			}
-			break
-		}
+		ch <- n
 	}
 	p.RUnlock()
 }
