@@ -16,33 +16,45 @@ import (
 
 type JWTValidator func(ctx context.Context) (context.Context, error)
 
-func MakeJWTValidator(jwkSet oidc.KeySet, issuer string, audiences ...string) JWTValidator {
+func MakeJWTValidator(validateSession SessionValidator, jwkSet oidc.KeySet, issuer string, audiences ...string) JWTValidator {
 	return func(ctx context.Context) (context.Context, error) {
-		token, err := extractAuth(ctx)
-		if err != nil {
-			return ctx, err
+		sessionErr := validateSession(ctx)
+		if sessionErr == nil {
+			return libctx.WithAuthSubject(ctx, libctx.GetUserID(ctx)), nil
 		}
 
-		payload, err := jwkSet.VerifySignature(ctx, token)
-		if err != nil {
-			return ctx, liberr.NewUnauthenticated(err.Error())
+		oauthCtx, oauthErr := func() (context.Context, error) {
+			token, err := extractAuth(ctx)
+			if err != nil {
+				return nil, err
+			}
+
+			payload, err := jwkSet.VerifySignature(ctx, token)
+			if err != nil {
+				return nil, liberr.NewUnauthenticated(err.Error())
+			}
+
+			claims := jwt.Claims{}
+			if err := json.Unmarshal(payload, &claims); err != nil {
+				return nil, liberr.NewUnauthenticated(err.Error())
+			}
+
+			// Validate iss, exp, nbf, aud
+			if err := claims.ValidateWithLeeway(jwt.Expected{
+				Issuer:   issuer,
+				Time:     time.Now(),
+				Audience: audiences,
+			}, 0); err != nil {
+				return nil, liberr.NewUnauthenticated("validation failed: %s", err)
+			}
+
+			return libctx.WithAuthSubject(ctx, claims.Subject), nil
+		}()
+		if oauthErr == nil {
+			return oauthCtx, nil
 		}
 
-		claims := jwt.Claims{}
-		if err := json.Unmarshal(payload, &claims); err != nil {
-			return ctx, liberr.NewUnauthenticated(err.Error())
-		}
-
-		// Validate iss, exp, nbf, aud
-		if err := claims.ValidateWithLeeway(jwt.Expected{
-			Issuer:   issuer,
-			Time:     time.Now(),
-			Audience: audiences,
-		}, 0); err != nil {
-			return ctx, liberr.NewUnauthenticated("validation failed: %s", err)
-		}
-
-		return libctx.WithAuthSubject(ctx, claims.Subject), nil
+		return ctx, liberr.NewUnauthenticated("", liberr.Group(sessionErr, oauthErr))
 	}
 }
 
