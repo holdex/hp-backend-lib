@@ -24,6 +24,7 @@ func WithMetadata(h http.Handler) http.HandlerFunc {
 		ctx = WithRemoteAddr(ctx, r.Header.Get("X-Real-IP"))
 		ctx = WithSessionID(ctx, r.Header.Get("X-Session-ID"))
 		ctx = WithUserID(ctx, r.Header.Get("X-User-ID"))
+		ctx = WithHoldexTeamMember(ctx, r.Header.Get("X-Holdex-Team-Member"))
 		ctx = WithUserAgent(ctx, r.UserAgent())
 		h.ServeHTTP(w, r.WithContext(ctx))
 	}
@@ -61,6 +62,14 @@ func GetSessionID(ctx context.Context) string { return GetVal(ctx, "session_id")
 func WithSessionID(ctx context.Context, sessionID string) context.Context {
 	return setVal(ctx, "session_id", sessionID)
 }
+
+func IsHoldexTeamMember(ctx context.Context) bool {
+	return GetVal(ctx, "holdex_team_member") == "1"
+}
+func WithHoldexTeamMember(ctx context.Context, holdexTeamMember string) context.Context {
+	return setVal(ctx, "holdex_team_member", holdexTeamMember)
+}
+
 func WithAuthorization(ctx context.Context, authorization string) context.Context {
 	return setVal(ctx, "authorization", authorization)
 }
