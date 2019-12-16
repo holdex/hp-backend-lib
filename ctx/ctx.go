@@ -25,6 +25,7 @@ func WithMetadata(h http.Handler) http.HandlerFunc {
 		ctx = WithSessionID(ctx, r.Header.Get("X-Session-ID"))
 		ctx = WithUserID(ctx, r.Header.Get("X-User-ID"))
 		ctx = WithHoldexTeamMember(ctx, r.Header.Get("X-Holdex-Team-Member"))
+		ctx = WithHttpReferer(ctx, r.Header.Get("X-HTTP-Referer"))
 		ctx = WithUserAgent(ctx, r.UserAgent())
 		h.ServeHTTP(w, r.WithContext(ctx))
 	}
@@ -61,6 +62,11 @@ func WithUserID(ctx context.Context, userID string) context.Context {
 func GetSessionID(ctx context.Context) string { return GetVal(ctx, "session_id") }
 func WithSessionID(ctx context.Context, sessionID string) context.Context {
 	return setVal(ctx, "session_id", sessionID)
+}
+
+func GetHttpReferer(ctx context.Context) string { return GetVal(ctx, "http_referer") }
+func WithHttpReferer(ctx context.Context, httpReferer string) context.Context {
+	return setVal(ctx, "http_referer", httpReferer)
 }
 
 func IsHoldexTeamMember(ctx context.Context) bool {
