@@ -24,6 +24,7 @@ func WithMetadata(h http.Handler) http.HandlerFunc {
 		ctx = WithRemoteAddr(ctx, r.Header.Get("X-Real-IP"))
 		ctx = WithSessionID(ctx, r.Header.Get("X-Session-ID"))
 		ctx = WithUserID(ctx, r.Header.Get("X-User-ID"))
+		ctx = WithGAnalyticsCID(ctx, r.Header.Get("GA-CID"))
 		ctx = WithHoldexTeamMember(ctx, r.Header.Get("X-Holdex-Team-Member"))
 		ctx = WithHttpReferer(ctx, r.Header.Get("X-HTTP-Referer"))
 		ctx = WithUserAgent(ctx, r.UserAgent())
@@ -44,6 +45,12 @@ func WithRemoteAddr(ctx context.Context, remoteAddr string) context.Context {
 func GetUserAgent(ctx context.Context) string { return GetVal(ctx, "user_agent") }
 func WithUserAgent(ctx context.Context, userAgent string) context.Context {
 	return setVal(ctx, "user_agent", userAgent)
+}
+
+// Google Analytics cid
+func GetGAnalyticsCID(ctx context.Context) string { return GetVal(ctx, "ga_cid") }
+func WithGAnalyticsCID(ctx context.Context, userID string) context.Context {
+	return setVal(ctx, "ga_cid", userID)
 }
 
 // Deprecated
