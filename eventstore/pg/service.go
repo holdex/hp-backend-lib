@@ -70,7 +70,7 @@ func (s *service) StoreEvents(ctx context.Context, events ...libeventstore.Event
 	return nil
 }
 
-func (s *service) MigrateEvents(ctx context.Context, events ...libeventstore.Event) error {
+func (s *service) MigrateEvents(ctx context.Context, events ...libeventstore.StreamEvent) error {
 	if len(events) == 0 {
 		return nil
 	}
@@ -150,7 +150,7 @@ type revision struct {
 	err error
 }
 
-func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64, eventTypes ...string) <-chan libeventstore.StreamEvent {
+func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64, eventTypes ...string) <-chan []libeventstore.StreamEvent {
 	startCheckingLastRevision := func(lastSeqNumberCh chan revision) {
 		pushRevision := func(r revision) {
 			for {
@@ -188,16 +188,16 @@ func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64,
 		}
 	}
 
-	startStreaming := func(stream chan<- libeventstore.StreamEvent, lastSeqNumberCh <-chan revision) {
+	startStreaming := func(stream chan<- []libeventstore.StreamEvent, lastSeqNumberCh <-chan revision) {
 		for {
 			select {
 			case <-ctx.Done():
-				stream <- libeventstore.StreamEvent{Err: ctx.Err()}
+				stream <- []libeventstore.StreamEvent{{Err: ctx.Err()}}
 				return
 			case lastSeqNumber := <-lastSeqNumberCh:
 				{
 					if lastSeqNumber.err != nil {
-						stream <- libeventstore.StreamEvent{Err: lastSeqNumber.err}
+						stream <- []libeventstore.StreamEvent{{Err: lastSeqNumber.err}}
 						close(stream)
 						return
 					}
@@ -205,23 +205,21 @@ func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64,
 					for fromRevision < lastSeqNumber.r {
 						select {
 						case <-ctx.Done():
-							stream <- libeventstore.StreamEvent{Err: ctx.Err()}
+							stream <- []libeventstore.StreamEvent{{Err: ctx.Err()}}
 							return
 						default:
-							if evs, err := s.LoadEvents(ctx, fromRevision+1, lastSeqNumber.r, buffer, eventTypes...); err == nil {
-								for _, e := range evs {
-									select {
-									case <-ctx.Done():
-										stream <- libeventstore.StreamEvent{Err: ctx.Err()}
-										return
-									case stream <- libeventstore.StreamEvent{Event: e}:
-										fromRevision = e.Revision
-									}
-								}
-							} else {
-								stream <- libeventstore.StreamEvent{Err: err}
+							if evs, err := s.LoadEvents(ctx, fromRevision+1, lastSeqNumber.r, buffer, eventTypes...); err != nil {
+								stream <- []libeventstore.StreamEvent{{Err: err}}
 								close(stream)
 								return
+							} else if len(evs) > 0 {
+								select {
+								case <-ctx.Done():
+									stream <- []libeventstore.StreamEvent{{Err: ctx.Err()}}
+									return
+								case stream <- evs:
+									fromRevision = evs[len(evs)-1].Revision
+								}
 							}
 						}
 					}
@@ -230,7 +228,7 @@ func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64,
 		}
 	}
 
-	stream := make(chan libeventstore.StreamEvent, buffer)
+	stream := make(chan []libeventstore.StreamEvent, 10)
 	lastSeqNumberCh := make(chan revision, 1)
 
 	go startCheckingLastRevision(lastSeqNumberCh)
@@ -240,7 +238,7 @@ func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64,
 }
 
 //noinspection SqlResolve
-func (s *service) LoadEvents(ctx context.Context, fromRevision, toRevision, howMany uint64, eventTypes ...string) ([]libeventstore.Event, error) {
+func (s *service) LoadEvents(ctx context.Context, fromRevision, toRevision, howMany uint64, eventTypes ...string) ([]libeventstore.StreamEvent, error) {
 	var rows *sql.Rows
 	var err error
 	if len(eventTypes) > 0 {
@@ -254,13 +252,13 @@ FROM events WHERE revision BETWEEN $1 AND $2 ORDER BY revision LIMIT $3`, fromRe
 		return nil, err
 	}
 
-	var events []libeventstore.Event
+	var events []libeventstore.StreamEvent
 	for rows.Next() {
 		var e libeventstore.Event
 		if err = rows.Scan(&e.Revision, &e.StreamId, &e.StreamType, &e.StreamRevision, &e.Type, &e.Payload, &e.CreatedAt, &e.Metadata); err != nil {
 			break
 		}
-		events = append(events, e)
+		events = append(events, libeventstore.StreamEvent{Event: e})
 	}
 	rows.Close()
 	if err != nil {

@@ -15,7 +15,7 @@ var ErrDataSourceNotAvailable = errors.New("data source not available")
 
 type Migrator interface {
 	libeventstore.Service
-	MigrateEvents(ctx context.Context, events ...libeventstore.Event) error
+	MigrateEvents(ctx context.Context, events ...libeventstore.StreamEvent) error
 }
 
 func NewService(ctx context.Context, s1 libeventstore.Service, s2 Migrator) libeventstore.Service {
@@ -169,7 +169,7 @@ func (s *service) LoadEventStream(ctx context.Context, streamID, streamType stri
 	}
 }
 
-func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64, eventTypes ...string) <-chan libeventstore.StreamEvent {
+func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64, eventTypes ...string) <-chan []libeventstore.StreamEvent {
 	s.RLock()
 	defer s.RUnlock()
 
@@ -184,13 +184,13 @@ func (s *service) StreamEvents(ctx context.Context, fromRevision, buffer uint64,
 	case 2:
 		return s.s2.StreamEvents(ctx, fromRevision, buffer, eventTypes...)
 	default:
-		ch := make(chan libeventstore.StreamEvent, 1)
-		ch <- libeventstore.StreamEvent{Err: ErrDataSourceNotAvailable}
+		ch := make(chan []libeventstore.StreamEvent, 1)
+		ch <- []libeventstore.StreamEvent{{Err: ErrDataSourceNotAvailable}}
 		return ch
 	}
 }
 
-func (s *service) LoadEvents(ctx context.Context, fromRevision, toRevision, howMany uint64, eventTypes ...string) ([]libeventstore.Event, error) {
+func (s *service) LoadEvents(ctx context.Context, fromRevision, toRevision, howMany uint64, eventTypes ...string) ([]libeventstore.StreamEvent, error) {
 	s.RLock()
 	defer s.RUnlock()
 

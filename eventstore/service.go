@@ -13,8 +13,8 @@ type Service interface {
 	StoreEvents(ctx context.Context, events ...Event) error
 	LoadEventStream(ctx context.Context, streamID, streamType string, fromStreamRevision uint64) ([]Event, error)
 	GetRevision(ctx context.Context, eventTypes ...string) (uint64, error)
-	StreamEvents(ctx context.Context, fromRevision, buffer uint64, eventTypes ...string) <-chan StreamEvent
-	LoadEvents(ctx context.Context, fromRevision, toRevision, howMany uint64, eventTypes ...string) ([]Event, error)
+	StreamEvents(ctx context.Context, fromRevision, buffer uint64, eventTypes ...string) <-chan []StreamEvent
+	LoadEvents(ctx context.Context, fromRevision, toRevision, howMany uint64, eventTypes ...string) ([]StreamEvent, error)
 }
 
 type Event struct {
